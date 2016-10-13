@@ -5,14 +5,13 @@ from keras.layers.core import Dense, Activation, Dropout
 import pandas as pd
 import numpy as np
 
-NUM_PIXELS = 768
+NUM_PIXELS = 784
 NUM_CLASSES = 10
 
 def baseline_model():
     model = Sequential()
-    model.add(Dense(784, input_shape=(784,), init='normal', activation='relu'))
-    model.add(Dense(10, init='normal', activation='softmax'))
-    # Compile model
+    model.add(Dense(NUM_PIXELS, input_shape=(NUM_PIXELS,), init='normal', activation='relu'))
+    model.add(Dense(NUM_CLASSES, init='normal', activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 

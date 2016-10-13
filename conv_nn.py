@@ -1,23 +1,43 @@
 from keras.models import Sequential
 from keras.utils import np_utils
 from keras.layers.core import Dense, Activation, Dropout
+from keras.layers import Flatten
+from keras.layers.convolutional import Convolution2D
+from keras.layers.convolutional import MaxPooling2D
 
 import pandas as pd
 import numpy as np
 
-NUM_PIXELS = 784
 NUM_CLASSES = 10
 
 def baseline_model():
     model = Sequential()
-    model.add(Dense(output_dim=128, input_shape=(NUM_PIXELS,), activation='relu'))
+    model.add(Convolution2D(32, 5, 5, border_mode='valid', input_shape=(1, 28, 28), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.2))
+    model.add(Flatten())
     model.add(Dense(128, activation='relu'))
-    model.add(Dropout(0.2))
     model.add(Dense(NUM_CLASSES, activation='softmax'))
     # Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
+
+
+def complex_model():
+	# create model
+	model = Sequential()
+	model.add(Convolution2D(30, 5, 5, border_mode='valid', input_shape=(1, 28, 28), activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Convolution2D(15, 3, 3, activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.2))
+	model.add(Flatten())
+	model.add(Dense(128, activation='relu'))
+	model.add(Dense(50, activation='relu'))
+	model.add(Dense(NUM_CLASSES, activation='softmax'))
+	# Compile model
+	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+	return model
 
 if __name__ == '__main__':
     # fix random seed for reproducibility
@@ -41,10 +61,14 @@ if __name__ == '__main__':
     # one hot encode outputs
     y_train = np_utils.to_categorical(labels)
 
-    model = baseline_model()
+    #model = baseline_model()
+    model = complex_model()
+
+    X_train = X_train.reshape(X_train.shape[0], 1, 28, 28).astype('float32')
+    X_test = X_test.reshape(X_test.shape[0], 1, 28, 28).astype('float32')
 
     # Fit the model
-    model.fit(X_train, y_train, batch_size=200, nb_epoch=80, verbose=2)
+    model.fit(X_train, y_train, batch_size=200, nb_epoch=20, verbose=2)
 
     predictions = model.predict_classes(X_test, verbose=1)
     result = pd.DataFrame({"ImageId": list(range(1, len(predictions) + 1)), "Label": predictions})

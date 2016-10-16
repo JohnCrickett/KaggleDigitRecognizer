@@ -4,6 +4,7 @@ from keras.layers.core import Dense, Activation, Dropout
 from keras.layers import Flatten
 from keras.layers.convolutional import Convolution2D
 from keras.layers.convolutional import MaxPooling2D
+from keras.layers.normalization import BatchNormalization
 
 import pandas as pd
 import numpy as np
@@ -21,6 +22,7 @@ def complex_model():
     model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.2))
     model.add(Dense(50, activation='relu'))
+    model.add(BatchNormalization())
     model.add(Dense(20, activation='relu'))
     model.add(Dense(NUM_CLASSES, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -55,7 +57,7 @@ if __name__ == '__main__':
 
     # Fit the model
     #model.fit(X_train, y_train, batch_size=200, nb_epoch=20, verbose=2)
-    model.fit(X_train, y_train, batch_size=1000, nb_epoch=50, verbose=2)
+    model.fit(X_train, y_train, batch_size=1000, nb_epoch=30, verbose=2)
 
     predictions = model.predict_classes(X_test, verbose=1)
     result = pd.DataFrame({"ImageId": list(range(1, len(predictions) + 1)), "Label": predictions})

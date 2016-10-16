@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     # Fit the model
     #model.fit(X_train, y_train, batch_size=200, nb_epoch=20, verbose=2)
-    model.fit(X_train, y_train, batch_size=1000, nb_epoch=30, verbose=2)
+    model.fit(X_train, y_train, batch_size=1000, nb_epoch=50, verbose=2)
 
     predictions = model.predict_classes(X_test, verbose=1)
     result = pd.DataFrame({"ImageId": list(range(1, len(predictions) + 1)), "Label": predictions})

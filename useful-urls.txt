@@ -1,0 +1,3 @@
+Image Manipulation Libraries:
+https://python-pillow.org/
+http://scikit-image.org/

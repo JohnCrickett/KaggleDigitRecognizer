@@ -11,5 +11,5 @@ images = (train.ix[:, 1:].values).astype('float32')
 an_image = images[1]
 an_image.shape = 28,28
 print(an_image)
-plt.imshow(an_image, cmap = 'gray')
+plt.imshow(an_image, cmap='gray')
 plt.show()

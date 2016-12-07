@@ -39,8 +39,6 @@ if __name__ == '__main__':
     labels = train.ix[:, 0].values.astype('int32')
     images = train.ix[:, 1:].values.astype('float32')
 
-
-
     #  perform each of the manipulations:
     #   move by one pixel (u/d/l/r)
     #   shear l/r - limited based on label (i.e. less for 1/7)
@@ -49,22 +47,22 @@ if __name__ == '__main__':
     # save results to a new training set
 
     # for each image:
-    for image in images[:2]:
+    for i, image in enumerate(images[:2]):
         # set the properties as needed for manipulation
         image.shape = 28, 28
         plt.imshow(image, cmap='gray')
+        print("label {label}".format(label=labels[i]))
         plt.show()
         # move by one pixel (u/d/l/r)
-        moved_image = move_image_up(image)
+        # moved_image = move_image_up(image)
+        # # TODO append new image to train, with correct label
+        # moved_image = move_image_down(image)
+        # # TODO append new image to train, with correct label
+        # moved_image = move_image_left(image)
+        # # TODO append new image to train, with correct label
+        # moved_image = move_image_right(image)
         # TODO append new image to train, with correct label
-        moved_image = move_image_down(image)
-        # TODO append new image to train, with correct label
-        moved_image = move_image_left(image)
-        # TODO append new image to train, with correct label
-        moved_image = move_image_right(image)
-        # TODO append new image to train, with correct label
+        # TODO could these all be moved by two without invalidating the image?
 
-        plt.imshow(moved_image, cmap='gray')
-        plt.show()
-
-
+        # plt.imshow(moved_image, cmap='gray')
+        # plt.show()

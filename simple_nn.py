@@ -1,6 +1,6 @@
 from keras.models import Sequential
 from keras.utils import np_utils
-from keras.layers.core import Dense, Activation, Dropout
+from keras.layers.core import Dense
 
 import pandas as pd
 import numpy as np
@@ -8,12 +8,19 @@ import numpy as np
 NUM_PIXELS = 784
 NUM_CLASSES = 10
 
+
 def baseline_model():
     model = Sequential()
-    model.add(Dense(NUM_PIXELS, input_shape=(NUM_PIXELS,), init='normal', activation='relu'))
+    model.add(Dense(NUM_PIXELS,
+                    input_shape=(NUM_PIXELS,),
+                    init='normal',
+                    activation='relu'))
     model.add(Dense(NUM_CLASSES, init='normal', activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy'])
     return model
+
 
 if __name__ == '__main__':
     # fix random seed for reproducibility
@@ -43,10 +50,9 @@ if __name__ == '__main__':
     model.fit(X_train, y_train, batch_size=200, nb_epoch=20, verbose=2)
 
     predictions = model.predict_classes(X_test, verbose=1)
-    result = pd.DataFrame({"ImageId": list(range(1, len(predictions) + 1)), "Label": predictions})
+    result = pd.DataFrame({"ImageId": list(range(1, len(predictions) + 1)),
+                           "Label": predictions})
 
-    result.to_csv("./predictions.csv", columns=('ImageId', 'Label'), index=None)
-
-
-
-
+    result.to_csv("./predictions.csv",
+                  columns=('ImageId', 'Label'),
+                  index=None)
